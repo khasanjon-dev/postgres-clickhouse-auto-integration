@@ -1,4 +1,4 @@
-docker run -d -p 8088:8088 -e "SUPERSET_SECRET_KEY=$(openssl rand -base64 42)" -e "TALISMAN_ENABLED=False" --name superset apache/superset:3.1.0
+docker run -d -p 8088:8088 -e "SUPERSET_SECRET_KEY=$(openssl rand -base64 42)" -e "TALISMAN_ENABLED=False" --name superset apache/superset:latest
 
 docker exec -it superset superset fab create-admin  --username admin  --firstname Admin  --lastname Admin  --email admin@localhost  --password admin
 

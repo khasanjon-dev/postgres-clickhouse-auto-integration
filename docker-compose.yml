@@ -1,0 +1,45 @@
+services:
+  #  superset:
+  #    build:
+  #      context: .
+  #      dockerfile: compose/superset/Dockerfile
+  #    container_name: bi_superset
+  #    restart: always
+  #    ports:
+  #      - "8088:8088"
+  #    environment:
+  #      - SUPERSET_SECRET_KEY=u6jNzm12QhzrOl4xYcMdyVHo7FWDTiZHYF7qpjPG8KwMQIwhl2FKZ92j
+  #      - TALISMAN_ENABLED=False
+  #    volumes:
+  #      - superset_data:/app/superset_home
+  #      - ./requirements/local.txt:/requirements/local.txt
+  #    depends_on:
+  #      - postgres
+  #    command: >
+  #      sh -c "superset db upgrade &&
+  #             superset init &&
+  #             superset run -p 8088 -h 0.0.0.0 --with-threads --reload --debugger"
+  
+
+  postgres:
+    image: postgres:16
+    restart: always
+    container_name: bi_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: test_db
+
+    healthcheck:
+      test: [ 'CMD', 'psql', '-U', 'postgres', '-c', 'SELECT 1' ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+volumes:
+  postgres_data:
